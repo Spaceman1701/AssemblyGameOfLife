@@ -27,10 +27,16 @@ CMAIN:
     call read_input ;rbp +
     add rsp, 16 ;undo last call
     
-    mov rax, [rbp + 8]
+    mov rax, [rbp - 8]
+    PRINT_DEC 8, rax
+    NEWLINE
+    NEWLINE
     push rax
-    lea rax, [rbp + 16]
+    lea rax, [rbp - 16]
     push rax
+    PRINT_DEC 8, [rbp - 16]
+    NEWLINE
+    NEWLINE
     push 9
     
     call Compute_cell_step
@@ -84,6 +90,13 @@ Compute_cell_step: ;cell, array, array size
     mov rbx, [rbp + 24] ;array
     mov rcx, [rbp + 32] ;array size
     
+    PRINT_DEC 8, r15
+    NEWLINE
+    PRINT_DEC 8, rbx
+    NEWLINE
+    PRINT_DEC 8, rcx
+    NEWLINE
+    
     sub rsp, 8
     mov qword [rbp], 0 ;num alive
    
@@ -98,8 +111,7 @@ Compute_cell_step: ;cell, array, array size
     add r12, rbx ;end of array
     
     lea r8, [surround]
-    PRINT_DEC 1, [surround]
-    NEWLINE
+    
     mov rdi, 4
     
     PRINT_STRING "entering main loop"
